@@ -1,0 +1,66 @@
+
+POST http://localhost:9090/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"sumitkumar",
+    "password":"sumit123456",
+    "email":"sumit@gmail.com",
+    "name":"sumit"
+}
+
+###
+POST http://localhost:9090/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "email":"pk@gmail.com",
+    "password":"pk"
+}
+
+###
+GET http://localhost:9090/get_user_and_profile  HTTP/1.1
+Content-Type: application/json
+
+{
+      "token":"df0baa8943a1c73c1cc9987659157457dd7de2f072574589f0d402d18bbf98b6"
+}
+
+
+
+
+###
+
+GET http://localhost:9090/get_all_user_profile 
+
+
+### 🧪 Update Profile Request
+POST http://localhost:9090/update_profile_data
+Content-Type: application/json
+
+{
+  "token":"a7d3f244fa0f41f67b2e87df09c6a8bf12a1a52d9cb50a96fbe9b913ca52d7e9"
+,
+  "bio": "hyy My Name is Deepika and  i am Softwear Engineer",
+  "currentPost": "CTO",
+  "pastWork": [
+    {
+      "company": "InvestNest",
+      "position": "Engineer",
+      "year": "2+"
+    }
+  ],
+  "education": [
+    {
+      "school": "S.S.S School",
+      "degree": "12th",
+      "fieldOfDuty": "2015–2019"
+    }
+  ]
+}
+
+###
+GET http://localhost:9090/getAllPost  HTTP/1.1
+
+###
+GET http://localhost:9090/get_comments
