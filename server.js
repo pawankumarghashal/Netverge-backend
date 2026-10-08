@@ -28,9 +28,9 @@ const start = async () => {
    
 
 
-    app.listen(9090,()=>{
-        console.log("server is running on port 9090")
-    })
+    app.listen(process.env.PORT || 9090, () => {
+    console.log(`server is running on port ${process.env.PORT || 9090}`);
+});
 
  
 }
