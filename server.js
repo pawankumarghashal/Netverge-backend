@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import postRoutes from "./routes/posts.routes.js"
 import userRoutes from "./routes/user.routes.js"
-
+import fs from "fs";
 
 
 
@@ -13,6 +13,9 @@ dotenv.config();
 
 
 const app = express();
+if (!fs.existsSync("uploads")) {
+    fs.mkdirSync("uploads", { recursive: true });
+}
 app.use(cors());
 app.use(express.json());
 

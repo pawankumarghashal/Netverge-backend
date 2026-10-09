@@ -9,7 +9,6 @@ import Profile from "../models/profile.model.js";
 
 
 const router = Router();
-
 const storage = multer.diskStorage({
     destination:(req,file,cb) =>{
         cb(null,"uploads/")
@@ -17,10 +16,9 @@ const storage = multer.diskStorage({
     filename:(req,file,cb)=>{
        cb(null,file.originalname)
     }
-
 })
 
-const upload =multer({storage:storage})
+const upload = multer({storage:storage})
 
 router.route("/update_profile_picture").post(upload.single("profile_picture"),uploadProfilePicture)
 
