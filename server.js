@@ -25,17 +25,32 @@ app.use(userRoutes);
 app.use(express.static("uploads"))
 
 
-const start = async () => {
+// const start = async () => {
     
-    const connectDB = await mongoose.connect(process.env.MONGO_URL)
+//     const connectDB = await mongoose.connect(process.env.MONGO_URL)
    
 
 
-    app.listen(process.env.PORT || 9090, () => {
-    console.log(`server is running on port ${process.env.PORT || 9090}`);
-});
+//     app.listen(process.env.PORT || 9090, () => {
+//     console.log(`server is running on port ${process.env.PORT || 9090}`);
+// });
 
  
-}
+// }
+
+// start();
+
+const start = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URL);
+        console.log("MongoDB connected successfully");
+
+        app.listen(process.env.PORT || 9090, () => {
+            console.log(`server is running on port ${process.env.PORT || 9090}`);
+        });
+    } catch (error) {
+        console.error("MongoDB connection failed:", error.message);
+    }
+};
 
 start();
