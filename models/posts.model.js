@@ -33,7 +33,8 @@ const PostSchema = mongoose.Schema({
 
     },
     media:{
-        
+         type: String,
+    default: ""
 
     },
     fileType:{

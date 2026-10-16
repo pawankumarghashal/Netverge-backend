@@ -7,6 +7,7 @@ import PDFDocument from   "pdfkit";
 import fs from "fs"
 import ConnectionRequest from "../models/connections.model.js";
 import jwt from "jsonwebtoken";
+import cloudinary from "../config/cloudinary.js";
 
 
 
@@ -144,27 +145,69 @@ if(!user) return res.status(404).json({message:"User does not exist"})
 }
 
 
-export const uploadProfilePicture = async (req,res) =>{
+// export const uploadProfilePicture = async (req,res) =>{
 
-        const {token} = req.body 
-    try{
+//         const {token} = req.body 
+//     try{
 
-        const user = await User.findOne({token:token});
+//         const user = await User.findOne({token:token});
 
-        if(!user){
-            return res.status(404).json({message:"User not found "})
+//         if(!user){
+//             return res.status(404).json({message:"User not found "})
+//         }
+
+//         user.profilePicture= req.file.filename
+
+//         await user.save()
+//       return res.json({message:"Profile Picture Uploaded"})
+
+//     }catch(error){
+//         return res.status(400).json({message:error.message})
+//     }
+// } 
+
+
+
+export const uploadProfilePicture = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const user = await User.findOne({ token });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
         }
 
-        user.profilePicture= req.file.filename
+        if (!req.file) {
+            return res.status(400).json({ message: "No file uploaded" });
+        }
 
-        await user.save()
-      return res.json({message:"Profile Picture Uploaded"})
+        const uploadResult = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload_stream(
+                { folder: "netverge/profile_pictures" },
+                (error, result) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    resolve(result);
+                }
+            ).end(req.file.buffer);
+        });
 
-    }catch(error){
-        return res.status(400).json({message:error.message})
+        user.profilePicture = uploadResult.secure_url;
+
+        await user.save();
+
+        return res.json({
+            message: "Profile Picture Uploaded",
+            imageUrl: uploadResult.secure_url
+        });
+
+    } catch (error) {
+        console.error("Profile picture upload error:", error);
+        return res.status(500).json({ message: error.message });
     }
-} 
-
+};
 
 export const updateUserProfile = async (req,res) =>{
 

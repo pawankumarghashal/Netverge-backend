@@ -6,17 +6,21 @@ const router = Router();
 
 router.route("/home").get(activeCheck)
 
-const storage = multer.diskStorage({
-    destination:(req,file,cb) =>{
-        cb(null,"uploads/")
-    },
-    filename:(req,file,cb)=>{
-       cb(null,file.originalname)
-    }
+// const storage = multer.diskStorage({
+//     destination:(req,file,cb) =>{
+//         cb(null,"uploads/")
+//     },
+//     filename:(req,file,cb)=>{
+//        cb(null,file.originalname)
+//     }
 
+// })
+
+// const upload =multer({storage:storage})\
+
+const upload = multer({
+    storage: multer.memoryStorage()
 })
-
-const upload =multer({storage:storage})
 
 router.route("/post").post(upload.single('media'),createPost)
 router.route("/posts").get(getAllPosts)
